@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8081/api/cart";
+const API_URL = "https://natural-flow-production.up.railway.app/api/cart";
 
 export const addToCart = async (foodId, token) => {
     try {
