@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { StoreContext } from "../../context/StoreContext";
-import "./food-card.css";
+import '../../components/FoodItem/Food-Card.css';
 
 const FoodItem = ({ name, description, id, imageUrl, price }) => {
   const { increaseQty, decreaseQty, quantities } = useContext(StoreContext);
