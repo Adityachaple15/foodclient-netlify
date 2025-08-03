@@ -1,0 +1,53 @@
+/* src/styles/food-cards.css */
+.food-card {
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  background: #fff;
+  box-shadow: 0 14px 40px -12px rgba(33, 37, 41, 0.15);
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.food-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 28px 70px -8px rgba(33, 37, 41, 0.25);
+}
+.food-card .ratio img {
+  transition: transform .4s ease;
+}
+.food-card:hover .ratio img {
+  transform: scale(1.06);
+}
+.price-badge {
+  top: 12px;
+  right: 12px;
+  background: linear-gradient(135deg, #ff7e1b, #ff4f7a);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  box-shadow: 0 10px 30px rgba(255, 79, 122, 0.3);
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.food-card:hover .price-badge {
+  transform: scale(1.05);
+  box-shadow: 0 14px 40px rgba(255, 79, 122, 0.45);
+}
+.btn-primary, .btn-outline-primary, .btn-outline-success, .btn-outline-danger {
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.btn-primary:hover, .btn-outline-primary:hover, .btn-outline-success:hover, .btn-outline-danger:hover {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(31, 127, 255, 0.3);
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.food-card:hover .bi-star-fill,
+.food-card:hover .bi-star-half {
+  filter: drop-shadow(0 0 6px rgba(255, 193, 7, 0.8));
+  transition: filter .3s ease;
+}
+.btn-group .btn {
+  transition: background .2s ease, transform .15s ease;
+}
