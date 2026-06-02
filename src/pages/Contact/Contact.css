@@ -1,10 +1,19 @@
+/* src/pages/Contact/Contact.css */
 .contact-form {
-    background-color: #f8f9fa;
+    background-color: rgba(255, 255, 255, 0.92);
     border-radius: 20px;
+    padding: 40px;
+    box-shadow: var(--soft-shadow);
+    animation: page-rise 520ms var(--ease-out) both;
 }
 
 .custom-input {
     border-radius: 10px;
     padding: 12px;
-    border: 2px solid #e9ecef;
+    border: 1px solid #ced4da;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.custom-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(255, 99, 71, 0.25);
 }

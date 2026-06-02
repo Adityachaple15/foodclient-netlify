@@ -1,24 +1,23 @@
 import axios from "axios";
 
-const API_URL = "https://natural-flow-production.up.railway.app/api";
+const API_URL = "http://localhost:8081/api";
 
-export const registerUser = async (data) => {
-    try {
-        const response = await axios.post(
-            API_URL+"/register",
-            data
-          );
-        return response
-    } catch (error) {
-        throw error;
-    }
-}
+const api = axios.create({
+  baseURL: API_URL,
+  timeout: 5000,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
-export const login = async (data) => {
-    try {
-        const response = await axios.post(API_URL+"/login", data);
-        return response;
-    } catch (error) {
-        throw error;
-    }
-}
+// REGISTER
+export const registerUser = (data) => {
+  return api.post("/register", data);
+};
+
+// LOGIN
+export const login = (data) => {
+  return api.post("/login", data);
+};
+
+export default api;

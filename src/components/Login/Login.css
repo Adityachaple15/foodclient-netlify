@@ -1,9 +1,38 @@
+/* src/components/Login/Login.css */
 .login-container {
-    background-image: url("../../assets/login.jpeg");
+    background-image: linear-gradient(120deg, rgba(6, 11, 20, 0.78), rgba(255, 99, 71, 0.28)), url("../../assets/login.jpeg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     height: 100vh;
+    display: flex;
     align-items: center;
     justify-content: center;
+    animation: auth-bg 900ms var(--ease-out) both;
+}
+
+.login-container .card {
+    animation: auth-card 520ms var(--ease-out) both;
+}
+
+@keyframes auth-bg {
+    from {
+        opacity: 0;
+        filter: saturate(0.7);
+    }
+    to {
+        opacity: 1;
+        filter: saturate(1.05);
+    }
+}
+
+@keyframes auth-card {
+    from {
+        opacity: 0;
+        transform: translateY(22px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }

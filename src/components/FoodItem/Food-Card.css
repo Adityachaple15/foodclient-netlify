@@ -6,17 +6,36 @@
   position: relative;
   background: #fff;
   box-shadow: 0 14px 40px -12px rgba(33, 37, 41, 0.15);
-  transition: transform .3s ease, box-shadow .3s ease;
+  isolation: isolate;
+  animation: card-pop 460ms var(--ease-out) both;
+  transition: transform .3s var(--ease-out), box-shadow .3s var(--ease-out);
 }
+
+.food-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(145deg, rgba(255, 99, 71, 0.12), rgba(255, 193, 7, 0.1));
+  opacity: 0;
+  transition: opacity 260ms ease;
+}
+
 .food-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
   box-shadow: 0 28px 70px -8px rgba(33, 37, 41, 0.25);
 }
+
+.food-card:hover::after {
+  opacity: 1;
+}
+
 .food-card .ratio img {
-  transition: transform .4s ease;
+  transition: transform .55s var(--ease-out), filter .55s var(--ease-out);
 }
 .food-card:hover .ratio img {
   transform: scale(1.06);
+  filter: saturate(1.12) contrast(1.03);
 }
 .price-badge {
   top: 12px;
@@ -50,4 +69,33 @@
 }
 .btn-group .btn {
   transition: background .2s ease, transform .15s ease;
+}
+
+.order-add-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.order-add-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.36), transparent);
+  transform: translateX(-110%);
+  transition: transform 520ms ease;
+}
+
+.order-add-btn:hover::before {
+  transform: translateX(110%);
+}
+
+@keyframes card-pop {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }

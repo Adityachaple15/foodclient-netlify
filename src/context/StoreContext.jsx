@@ -5,58 +5,41 @@ import {
   addToCart,
   getCartData,
   removeQtyFromCart,
+  clearCartItems, // ✅ IMPORT
 } from "../service/cartService";
 
-export const StoreContext = createContext({
-  foodList: [],
-  quantities: {},
-  increaseQty: () => {},
-  decreaseQty: () => {},
-  removeFromCart: () => {},
-  token: "",
-  setToken: () => {},
-  setQuantities: () => {},
-  loadCartData: () => {},
-});
+export const StoreContext = createContext();
 
 export const StoreContextProvider = (props) => {
   const [foodList, setFoodList] = useState([]);
   const [quantities, setQuantities] = useState({});
-  const [token, setToken] = useState(() => {
-    return localStorage.getItem("token") || "";
-  });
+  const [token, setToken] = useState(() => localStorage.getItem("token") || "");
 
-  // Sync token to localStorage
+  // ================= TOKEN SYNC =================
   useEffect(() => {
-    if (token) {
-      localStorage.setItem("token", token);
-    } else {
-      localStorage.removeItem("token");
-    }
+    if (token) localStorage.setItem("token", token);
+    else localStorage.removeItem("token");
   }, [token]);
 
+  // ================= ADD TO CART =================
   const increaseQty = async (foodId) => {
-    // Optimistic update
     setQuantities((prev) => ({
       ...prev,
       [foodId]: (prev[foodId] || 0) + 1,
     }));
+
     try {
       await addToCart(foodId, token);
     } catch (err) {
-      // rollback on failure
-      setQuantities((prev) => {
-        const current = prev[foodId] || 1;
-        if (current <= 1) {
-          const { [foodId]: _, ...rest } = prev;
-          return rest;
-        }
-        return { ...prev, [foodId]: current - 1 };
-      });
-      console.error("Failed to add to cart:", err);
+      console.error(err);
+      setQuantities((prev) => ({
+        ...prev,
+        [foodId]: (prev[foodId] || 1) - 1,
+      }));
     }
   };
 
+  // ================= REMOVE QTY =================
   const decreaseQty = async (foodId) => {
     setQuantities((prev) => {
       const current = prev[foodId] || 0;
@@ -66,64 +49,62 @@ export const StoreContextProvider = (props) => {
       }
       return { ...prev, [foodId]: current - 1 };
     });
+
     try {
       await removeQtyFromCart(foodId, token);
     } catch (err) {
-      // rollback on failure: increment back
+      console.error(err);
       setQuantities((prev) => ({
         ...prev,
         [foodId]: (prev[foodId] || 0) + 1,
       }));
-      console.error("Failed to remove from cart:", err);
     }
   };
 
-  const removeFromCart = (foodId) => {
-    setQuantities((prevQuantities) => {
-      const updatedQuantities = { ...prevQuantities };
-      delete updatedQuantities[foodId];
-      return updatedQuantities;
-    });
+  // ================= CLEAR CART (🔥 FIX) =================
+  const clearCart = async () => {
+    try {
+      await clearCartItems();   // ✅ NO PARAM
+      setQuantities({});        // ✅ UI clear
+    } catch (err) {
+      console.error("Error while clearing cart", err);
+      alert("Error while clearing cart");
+    }
   };
 
+
+
+  // ================= LOAD CART =================
   const loadCartData = async (tok) => {
     try {
       const items = await getCartData(tok);
-      if (items && typeof items === "object") {
-        setQuantities(items);
-      } else {
-        setQuantities({});
-      }
+      setQuantities(items || {});
     } catch (err) {
-      console.error("Failed to load cart data:", err);
+      console.error("Failed to load cart data", err);
       setQuantities({});
     }
   };
 
+  // ================= LOAD DATA =================
   useEffect(() => {
-    async function loadData() {
+    const loadData = async () => {
       try {
-        const data = await fetchFoodList();
-        setFoodList(data);
+        setFoodList(await fetchFoodList());
+        if (token) await loadCartData(token);
       } catch (err) {
-        console.error("Failed to fetch food list:", err);
+        console.error(err);
       }
-
-      if (token) {
-        await loadCartData(token);
-      }
-    }
+    };
     loadData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // run once on mount
+  }, []);
 
   const contextValue = useMemo(
     () => ({
       foodList,
+      quantities,
       increaseQty,
       decreaseQty,
-      quantities,
-      removeFromCart,
+      clearCart, // ✅ EXPOSE
       token,
       setToken,
       setQuantities,

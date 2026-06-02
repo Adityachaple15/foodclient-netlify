@@ -4,7 +4,6 @@ import { assets } from "../../assets/assets";
 import { StoreContext } from "../../context/StoreContext";
 import { calculateCartTotals } from "../../util/cartUtils";
 import { toast } from "react-toastify";
-import { RAZORPAY_KEY } from "../../util/contants";
 import { useNavigate } from "react-router-dom";
 import {
   createOrder,
@@ -12,6 +11,26 @@ import {
   verifyPayment,
 } from "../../service/orderService";
 import { clearCartItems } from "../../service/cartService";
+
+const cityCoordinates = {
+  Banglore: { lat: 12.9716, lng: 77.5946 },
+  Mumbai: { lat: 19.076, lng: 72.8777 },
+  Pune: { lat: 18.5204, lng: 73.8567 },
+  Nagpur: { lat: 21.1458, lng: 79.0882 },
+  Nashik: { lat: 19.9975, lng: 73.7898 },
+  Patna: { lat: 25.5941, lng: 85.1376 },
+  Gaya: { lat: 24.7914, lng: 85.0002 },
+  Bhagalpur: { lat: 25.2425, lng: 86.9842 },
+  Muzaffarpur: { lat: 26.1197, lng: 85.391 },
+  Shimla: { lat: 31.1048, lng: 77.1734 },
+  Manali: { lat: 32.2432, lng: 77.1892 },
+  Dharamshala: { lat: 32.219, lng: 76.3234 },
+  Kullu: { lat: 31.9579, lng: 77.1095 },
+  Bhopal: { lat: 23.2599, lng: 77.4126 },
+  Indore: { lat: 22.7196, lng: 75.8577 },
+  Gwalior: { lat: 26.2183, lng: 78.1828 },
+  Jabalpur: { lat: 23.1815, lng: 79.9864 },
+};
 
 const PlaceOrder = () => {
   const { foodList, quantities, setQuantities, token } =
@@ -37,12 +56,15 @@ const PlaceOrder = () => {
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
+    const selectedLocation = cityCoordinates[data.city] || cityCoordinates.Nagpur;
     const orderData = {
       userAddress: `${data.firstName} ${data.lastName}, ${data.address}, ${data.city}, ${data.state}, ${data.zip}`,
       phoneNumber: data.phoneNumber,
       email: data.email,
+      customerLat: selectedLocation.lat,
+      customerLng: selectedLocation.lng,
       orderedItems: cartItems.map((item) => ({
-        foodId: item.foodId,
+        foodId: item.id,
         quantity: quantities[item.id],
         price: item.price * quantities[item.id],
         category: item.category,
@@ -122,7 +144,8 @@ const PlaceOrder = () => {
 
   const clearCart = async () => {
     try {
-      await clearCartItems(token, setQuantities);
+      await clearCartItems();
+      setQuantities({});
     } catch (error) {
       toast.error("Error while clearing the cart.");
     }

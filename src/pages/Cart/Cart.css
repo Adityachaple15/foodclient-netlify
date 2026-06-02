@@ -1,6 +1,9 @@
+/* src/pages/Cart/Cart.css */
 .cart-item img {
     max-width: 100px;
     height: auto;
+    border-radius: 10px;
+    transition: transform 240ms var(--ease-out), box-shadow 240ms var(--ease-out);
 }
 
 .quantity-input {
@@ -8,13 +11,32 @@
 }
 
 .cart-summary {
-    background-color: #f8f9fa;
-    border-radius: 10px;
+    position: sticky;
+    top: 96px;
+    background-color: rgba(255, 255, 255, 0.92);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: var(--soft-shadow);
+    animation: page-rise 520ms var(--ease-out) both;
 }
 
-.cart-item hr {
-    margin-top: 10px;
-    height: 2px;
-    background-color: #e2e2e2;
-    border: none;
+.cart-item {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    transition: background-color 220ms ease, transform 220ms var(--ease-out);
+    border-radius: 16px;
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+.cart-item:hover {
+    background: rgba(255, 99, 71, 0.05);
+    transform: translateX(4px);
+}
+
+.cart-item:hover img {
+    transform: scale(1.04);
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.16);
 }

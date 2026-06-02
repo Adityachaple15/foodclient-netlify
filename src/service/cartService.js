@@ -1,51 +1,22 @@
-import axios from "axios";
+import api from "./api";
 
-const API_URL = "https://natural-flow-production.up.railway.app/api/cart";
+// ➕ Add to cart
+export const addToCart = (foodId) => {
+  return api.post("/cart", { foodId });
+};
 
-export const addToCart = async (foodId, token) => {
-    try {
-        await axios.post(
-            API_URL,
-            { foodId },
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
-    } catch (error) {
-        console.error('Error while adding the cart data', error);
-    }
-}
+// ➖ Remove quantity
+export const removeQtyFromCart = (foodId) => {
+  return api.post("/cart/remove", { foodId });
+};
 
-export const removeQtyFromCart = async (foodId, token) => {
-    try {
-        await axios.post(
-            API_URL+"/remove",
-            { foodId },
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
-    } catch (error) {
-        console.error('Error while removing qty from cart', error);
-    }
-}
+// 🛒 Get cart
+export const getCartData = async () => {
+  const response = await api.get("/cart");
+  return response.data.items;
+};
 
-export const getCartData = async (token) => {
-    try {
-        const response = await axios.get(API_URL, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          return response.data.items;
-    } catch (error) {
-        console.error('Error while fetching the cart data', error);
-    }
-}
-
-export const clearCartItems = async (token, setQuantities) => {
-    try {
-        await axios.delete(API_URL, {
-            headers: { Authorization: `Bearer ${token}` },
-        });
-        setQuantities({});
-    } catch (error) {
-        console.error('Error while clearing the cart', error);
-        throw error;
-    }
-}
-
+// 🧹 Clear cart
+export const clearCartItems = async () => {
+  await api.delete("/cart");
+};

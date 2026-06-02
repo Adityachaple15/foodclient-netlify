@@ -6,7 +6,7 @@ import { calculateCartTotals } from "../../util/cartUtils";
 
 const Cart = () => {
   const navigate = useNavigate();
-  const { foodList, increaseQty, decreaseQty, quantities, removeFromCart } =
+  const { foodList, increaseQty, decreaseQty, quantities } =
     useContext(StoreContext);
   //cart items
   const cartItems = foodList.filter((food) => quantities[food.id] > 0);
@@ -72,7 +72,7 @@ const Cart = () => {
                       </p>
                       <button
                         className="btn btn-sm btn-outline-danger"
-                        onClick={() => removeFromCart(food.id)}
+                        onClick={() => decreaseQty(food.id)}
                       >
                         <i className="bi bi-trash"></i>
                       </button>

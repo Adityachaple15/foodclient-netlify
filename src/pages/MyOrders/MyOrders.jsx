@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { StoreContext } from "../../context/StoreContext";
-import axios from "axios";
 import { assets } from "../../assets/assets";
 import "./MyOrders.css";
 import { fetchUserOrders } from "../../service/orderService";
+import { Link } from "react-router-dom";
 
 const MyOrders = () => {
   const { token } = useContext(StoreContext);
@@ -53,6 +53,12 @@ const MyOrders = () => {
                       &#x25cf;{order.orderStatus}
                     </td>
                     <td>
+                      <Link
+                        to={`/track/${order.id}`}
+                        className="btn btn-sm btn-outline-primary me-2"
+                      >
+                        Track
+                      </Link>
                       <button
                         className="btn btn-sm btn-warning"
                         onClick={fetchOrders}

@@ -18,9 +18,13 @@ const ExploreMenu = ({ category, setCategory }) => {
 
   return (
     <div className="explore-menu position-relative">
-      <h1 className="d-flex align-items-center justify-content-between">
-        Explore Our Menu
-        <div className="d-flex">
+      <div className="section-heading">
+        <div>
+          <span className="section-kicker">Browse categories</span>
+          <h2>What are you hungry for?</h2>
+          <p>Choose a category and find your next favorite plate.</p>
+        </div>
+        <div className="d-flex category-arrows">
           <i
             className="bi bi-arrow-left-circle scroll-icon"
             onClick={scrollLeft}
@@ -30,8 +34,7 @@ const ExploreMenu = ({ category, setCategory }) => {
             onClick={scrollRight}
           ></i>
         </div>
-      </h1>
-      <p>Explore curated lists of dishes from top categories</p>
+      </div>
       <div
         className="d-flex justify-content-between gap-4 overflow-auto explore-menu-list"
         ref={menuRef}
@@ -41,15 +44,25 @@ const ExploreMenu = ({ category, setCategory }) => {
             <div
               key={index}
               className="text-center explore-menu-list-item"
+              role="button"
+              tabIndex={0}
               onClick={() =>
                 setCategory((prev) =>
                   prev === item.category ? "All" : item.category
                 )
               }
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  setCategory((prev) =>
+                    prev === item.category ? "All" : item.category
+                  );
+                }
+              }}
             >
+              <div className="category-image-shell">
               <img
                 src={item.icon}
-                alt=""
+                alt={item.category}
                 className={
                   item.category === category
                     ? "rounded-circle active"
@@ -58,6 +71,7 @@ const ExploreMenu = ({ category, setCategory }) => {
                 height={128}
                 width={128}
               />
+              </div>
               <p
                 className={
                   item.category === category
@@ -71,7 +85,6 @@ const ExploreMenu = ({ category, setCategory }) => {
           );
         })}
       </div>
-      <hr />
     </div>
   );
 };

@@ -21,7 +21,7 @@ const Menubar = () => {
     navigate("/");
   };
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <nav className="navbar navbar-expand-lg bg-body-tertiary mb-4">
       <div className="container">
         <Link to="/">
           <img
@@ -30,8 +30,11 @@ const Menubar = () => {
             className="mx-4"
             height={48}
             width={48}
+          
           />
+          
         </Link>
+      
         <button
           className="navbar-toggler"
           type="button"
@@ -44,8 +47,8 @@ const Menubar = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0 ">
+            <li className="nav-item ">
               <Link
                 className={
                   active === "home" ? "nav-link fw-bold active" : "nav-link"

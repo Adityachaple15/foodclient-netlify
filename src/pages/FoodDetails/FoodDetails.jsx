@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchFoodDetails } from "../../service/foodService";
@@ -7,10 +6,11 @@ import { StoreContext } from "../../context/StoreContext";
 
 const FoodDetails = () => {
   const { id } = useParams();
-  const { increaseQty } = useContext(StoreContext);
+  const { increaseQty, quantities } = useContext(StoreContext);
   const navigate = useNavigate();
 
   const [data, setData] = useState({});
+  const quantity = quantities?.[id] || 0;
 
   useEffect(() => {
     const loadFoodDetails = async () => {
@@ -25,7 +25,9 @@ const FoodDetails = () => {
   }, [id]);
 
   const addToCart = () => {
-    increaseQty(data.id);
+    if (quantity === 0) {
+      increaseQty(data.id);
+    }
     navigate("/cart");
   };
   return (
@@ -51,12 +53,14 @@ const FoodDetails = () => {
             <p className="lead">{data.description}</p>
             <div className="d-flex">
               <button
-                className="btn btn-outline-dark flex-shrink-0"
+                className={`btn flex-shrink-0 ${
+                  quantity > 0 ? "btn-primary" : "btn-outline-dark"
+                }`}
                 type="button"
                 onClick={addToCart}
               >
-                <i className="bi-cart-fill me-1"></i>
-                Add to cart
+                <i className={`${quantity > 0 ? "bi-cart-check-fill" : "bi-cart-fill"} me-1`}></i>
+                {quantity > 0 ? `Go to cart (${quantity})` : "Add to cart"}
               </button>
             </div>
           </div>

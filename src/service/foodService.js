@@ -1,24 +1,13 @@
-import axios from "axios";
+import api from "./api";
 
-const API_URL = 'https://natural-flow-production.up.railway.app/api/foods';
-
+// 🍽 Fetch all foods
 export const fetchFoodList = async () => {
-    try {
-        const response = await axios.get(API_URL);
-        return response.data;
-    } catch (error) {
-        console.log('Error fetching food list:', error);
-        throw error;
-    }    
-}
+  const response = await api.get("/foods");
+  return response.data;
+};
 
+// 🍔 Fetch food by id
 export const fetchFoodDetails = async (id) => {
-    try {
-        const response = await axios.get(API_URL+"/"+id);
-        return response.data;
-    } catch (error) {
-        console.log('Error fetching food details:', error);
-        throw error;
-    }
-    
-}
+  const response = await api.get(`/foods/${id}`);
+  return response.data;
+};

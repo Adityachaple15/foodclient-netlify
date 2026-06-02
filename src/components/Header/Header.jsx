@@ -4,15 +4,43 @@ import "./Header.css";
 
 const Header = () => {
   return (
-    <div className="p-5 mb-4 bg-light rounded-3 mt-1 header">
-      <div className="container-fluid py-5">
-        <h1 className="display-5 fw-bold">Order your favorite food here</h1>
-        <p className="col-md-8 fs-4">
-          Discover the best food and drinks in Bengaluru
+    <div className="header">
+      <div className="header-content">
+        <span className="hero-chip">
+          <i className="bi bi-lightning-charge-fill"></i>
+          Fast delivery in Pune
+        </span>
+
+        <h1>Crave it. Click it. Enjoy it hot.</h1>
+        <p>
+          Explore fresh biryanis, burgers, pizzas, desserts, and comfort meals
+          prepared for quick doorstep delivery.
         </p>
-        <Link to="/explore" className="btn btn-primary">
-          Explore
-        </Link>
+
+        <div className="hero-actions">
+          <Link to="/explore" className="btn btn-primary btn-lg">
+            Explore menu
+            <i className="bi bi-arrow-right ms-2"></i>
+          </Link>
+          <Link to="/cart" className="btn btn-light btn-lg">
+            View cart
+          </Link>
+        </div>
+
+        <div className="hero-stats">
+          <div>
+            <strong>30 min</strong>
+            <span>avg delivery</span>
+          </div>
+          <div>
+            <strong>4.8</strong>
+            <span>food rating</span>
+          </div>
+          <div>
+            <strong>Fresh</strong>
+            <span>daily menu</span>
+          </div>
+        </div>
       </div>
     </div>
   );
